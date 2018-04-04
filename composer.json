@@ -44,7 +44,7 @@
       "project-base/app/AppCache.php",
       "project-base/app/AppKernel.php",
       "project-base/app/Bootstrap.php",
-      "project-base/app/Environment.php"
+      "packages/framework/src/Component/Environment/Environment.php"
     ],
     "files": [
       "packages/framework/src/Component/Translation/functions.php",
@@ -166,12 +166,12 @@
     "post-install-cmd": [
       "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-      "Shopsys\\Environment::checkEnvironment"
+      "Shopsys\\FrameworkBundle\\Component\\Environment\\Environment::checkEnvironment"
     ],
     "post-update-cmd": [
       "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
       "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
-      "Shopsys\\Environment::checkEnvironment"
+      "Shopsys\\FrameworkBundle\\Component\\Environment\\Environment::checkEnvironment"
     ]
   },
   "config": {

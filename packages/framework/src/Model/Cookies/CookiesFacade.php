@@ -2,8 +2,8 @@
 
 namespace Shopsys\FrameworkBundle\Model\Cookies;
 
-use Shopsys\Environment;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Component\Environment\Environment;
 use Shopsys\FrameworkBundle\Component\Setting\Setting;
 use Shopsys\FrameworkBundle\Model\Article\Article;
 use Shopsys\FrameworkBundle\Model\Article\ArticleFacade;

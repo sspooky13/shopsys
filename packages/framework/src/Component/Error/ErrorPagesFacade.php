@@ -3,8 +3,8 @@
 namespace Shopsys\FrameworkBundle\Component\Error;
 
 use AppKernel;
-use Shopsys\Environment;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Component\Environment\Environment;
 use Shopsys\FrameworkBundle\Component\Router\DomainRouterFactory;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;

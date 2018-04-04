@@ -1,6 +1,6 @@
 <?php
 
-use Shopsys\Environment;
+use Shopsys\FrameworkBundle\Component\Environment\Environment;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 

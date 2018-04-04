@@ -2,9 +2,9 @@
 
 namespace Tests\ShopBundle\Test;
 
-use Shopsys\Environment;
 use Shopsys\FrameworkBundle\Component\DataFixture\PersistentReferenceFacade;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Component\Environment\Environment;
 use Shopsys\IntegrationTestingBundle\ServiceLocator\ServiceByTypeLocator;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

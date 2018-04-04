@@ -4,7 +4,7 @@ namespace Shopsys;
 
 use AppKernel;
 use Doctrine\Common\Annotations\AnnotationRegistry;
-use Shopsys\Environment;
+use Shopsys\FrameworkBundle\Component\Environment\Environment;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
@@ -24,7 +24,7 @@ class Bootstrap
     public function __construct($console = false, $environment = null)
     {
         if ($environment === null) {
-            $this->environment = Environment::getEnvironment($console);
+            $this->environment = Environment::getEnvironment($console, new \Shopsys\Environment());
         } else {
             $this->environment = $environment;
         }
@@ -41,7 +41,7 @@ class Bootstrap
 
         $this->configurePhp();
 
-        if (Environment::isEnvironmentDebug($this->environment)) {
+        if (FrameworkBundle\Component\Environment\Environment::isEnvironmentDebug($this->environment)) {
             Debug::enable();
         } else {
             ErrorHandler::register();

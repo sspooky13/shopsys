@@ -6,7 +6,7 @@ use AppKernel;
 use Codeception\Configuration;
 use Codeception\Module;
 use Codeception\TestInterface;
-use Shopsys\Environment;
+use Shopsys\FrameworkBundle\Component\Environment\Environment;
 
 class SymfonyHelper extends Module
 {

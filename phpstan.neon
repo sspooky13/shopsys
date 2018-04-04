@@ -5,3 +5,4 @@ parameters:
     excludes_analyse:
         # Exclude coding standards from packages as it is in incompatible version
         - %currentWorkingDirectory%/packages/coding-standards/*
+        - %currentWorkingDirectory%/packages/framework/src/Component/Environment/Environment.php

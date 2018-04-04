@@ -3,7 +3,7 @@
 namespace Shopsys\FrameworkBundle\Component\Error\Reporting;
 
 use DateTime;
-use Shopsys\Environment;
+use Shopsys\FrameworkBundle\Component\Environment\Environment;
 use Shopsys\FrameworkBundle\Component\Setting\Setting;
 use Shopsys\FrameworkBundle\Model\Mail\MailerService;
 use Shopsys\FrameworkBundle\Model\Mail\MessageData;
