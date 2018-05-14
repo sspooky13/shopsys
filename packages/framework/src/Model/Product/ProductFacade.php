@@ -410,7 +410,7 @@ class ProductFacade
     {
         if ($product->getPriceCalculationType() === Product::PRICE_CALCULATION_TYPE_MANUAL) {
             foreach ($this->pricingGroupRepository->getAll() as $pricingGroup) {
-                $this->productManualInputPriceFacade->refresh($product, $pricingGroup, $manualInputPrices[$pricingGroup->getId()]);
+                $this->productManualInputPriceFacade->refresh($product, $pricingGroup, $manualInputPrices[$pricingGroup->getId()] ?? null);
             }
         } else {
             $this->productManualInputPriceFacade->deleteByProduct($product);

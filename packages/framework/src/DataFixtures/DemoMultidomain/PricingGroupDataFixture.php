@@ -4,6 +4,8 @@ namespace Shopsys\FrameworkBundle\DataFixtures\DemoMultidomain;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Shopsys\FrameworkBundle\Component\DataFixture\AbstractReferenceFixture;
+use Shopsys\FrameworkBundle\Component\Domain\Domain;
+use Shopsys\FrameworkBundle\Component\Setting\Setting;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupData;
 use Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupFacade;
 
@@ -16,15 +18,26 @@ class PricingGroupDataFixture extends AbstractReferenceFixture
     const PRICING_GROUP_VIP_DOMAIN_2 = 'pricing_group_vip_domain_2';
 
     /**
-     * @param \Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupFacade $pricingGroupFacade
+     * @var \Shopsys\FrameworkBundle\Component\Domain\Domain
      */
-    public function __construct(PricingGroupFacade $pricingGroupFacade)
+    private $domain;
+
+    /**
+     * @var \Shopsys\FrameworkBundle\Component\Setting\Setting
+     */
+    private $setting;
+
+    public function __construct(PricingGroupFacade $pricingGroupFacade, Domain $domain, Setting $setting)
     {
         $this->pricingGroupFacade = $pricingGroupFacade;
+        $this->domain = $domain;
+        $this->setting = $setting;
     }
 
     public function load(ObjectManager $manager)
     {
+        $this->setting->clearCache();
+
         $pricingGroupData = new PricingGroupData();
 
         $pricingGroupData->name = 'Obyčejný zákazník';
@@ -32,8 +45,17 @@ class PricingGroupDataFixture extends AbstractReferenceFixture
         $this->createPricingGroup($pricingGroupData, $domainId, self::PRICING_GROUP_ORDINARY_DOMAIN_2);
 
         $pricingGroupData->name = 'VIP zákazník';
-        $domainId1 = 2;
-        $this->createPricingGroup($pricingGroupData, $domainId1, self::PRICING_GROUP_VIP_DOMAIN_2);
+        $this->createPricingGroup($pricingGroupData, $domainId, self::PRICING_GROUP_VIP_DOMAIN_2);
+
+        foreach ($this->domain->getAllIds() as $domainId) {
+            if ($domainId > 2) {
+                $pricingGroupData->name = 'Default';
+                $pricingGroup = $this->pricingGroupFacade->create($pricingGroupData, $domainId);
+                $this->setting->setForDomain(Setting::DEFAULT_PRICING_GROUP, $pricingGroup->getId(), $domainId);
+            }
+        }
+
+        $this->setting->clearCache();
     }
 
     /**

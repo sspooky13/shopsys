@@ -150,6 +150,7 @@ shopsys_shop:
     locale_router_filepaths:
       cs: '%shopsys.root_dir%/src/Shopsys/ShopBundle/Resources/config/routing_front_cs.yml'
       en: '%shopsys.root_dir%/src/Shopsys/ShopBundle/Resources/config/routing_front_en.yml'
+      sk: '%shopsys.root_dir%/src/Shopsys/ShopBundle/Resources/config/routing_front_sk.yml'
     friendly_url_router_filepath: '%shopsys.root_dir%/src/Shopsys/ShopBundle/Resources/config/routing_friendly_url.yml'
 
 snc_redis:
