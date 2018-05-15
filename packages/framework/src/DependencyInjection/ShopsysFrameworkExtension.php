@@ -2,6 +2,7 @@
 
 namespace Shopsys\FrameworkBundle\DependencyInjection;
 
+use Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\EventListener\MultidomainListener;
 use Shopsys\FrameworkBundle\Component\Environment\EnvironmentType;
 use Shopsys\FrameworkBundle\Component\Grid\InlineEdit\GridInlineEditInterface;
 use Symfony\Component\Config\FileLocator;
@@ -23,6 +24,10 @@ class ShopsysFrameworkExtension extends Extension
         if ($container->getParameter('kernel.environment') === EnvironmentType::TEST) {
             $loader->load('services_test.yml');
         }
+
+        $container->getDefinition(MultidomainListener::class)
+            ->addMethodCall('setCurrentDomainId', [1])
+            ->addMethodCall('setFallbackDomainId', [1]);
 
         $container->registerForAutoconfiguration(GridInlineEditInterface::class)
             ->addTag('shopsys.grid_inline_edit');

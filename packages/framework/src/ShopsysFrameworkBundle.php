@@ -2,6 +2,7 @@
 
 namespace Shopsys\FrameworkBundle;
 
+use Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\DriverChainCompilerPass;
 use Shopsys\FrameworkBundle\DependencyInjection\Compiler\RegisterCronModulesCompilerPass;
 use Shopsys\FrameworkBundle\DependencyInjection\Compiler\RegisterPluginCrudExtensionsCompilerPass;
 use Shopsys\FrameworkBundle\DependencyInjection\Compiler\RegisterPluginDataFixturesCompilerPass;
@@ -19,5 +20,6 @@ class ShopsysFrameworkBundle extends Bundle
         $container->addCompilerPass(new RegisterPluginCrudExtensionsCompilerPass());
         $container->addCompilerPass(new RegisterPluginDataFixturesCompilerPass());
         $container->addCompilerPass(new RegisterProductFeedConfigsCompilerPass());
+        $container->addCompilerPass(new DriverChainCompilerPass());
     }
 }

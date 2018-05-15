@@ -791,3 +791,19 @@ services:
 
   Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFactoryInterface:
     alias: Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFactory
+
+  Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\DomainIdListener:
+    tags: [ kernel.event_subscriber ]
+
+  Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\EventListener\MultidomainListener:
+    arguments:
+      - '@shopsys.multidomain.metadata_factory'
+    tags: [ doctrine.event_subscriber ]
+
+  shopsys.multidomain.driver_chain:
+    class: Metadata\Driver\DriverChain
+
+  shopsys.multidomain.metadata_factory:
+    class: Metadata\MetadataFactory
+    arguments:
+      - '@shopsys.multidomain.driver_chain'
