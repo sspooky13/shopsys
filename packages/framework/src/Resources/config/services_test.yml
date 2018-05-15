@@ -23,8 +23,6 @@ services:
 
   Shopsys\FrameworkBundle\Model\Security\AdminLogoutHandler: ~
 
-  Shopsys\FrameworkBundle\Model\Product\Brand\BrandEditDataFactory: ~
-
   Shopsys\FrameworkBundle\Model\Product\Brand\BrandFacade: ~
 
   Shopsys\FrameworkBundle\Model\Security\CustomerLoginHandler: ~
