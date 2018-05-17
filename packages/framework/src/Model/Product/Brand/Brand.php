@@ -5,6 +5,7 @@ namespace Shopsys\FrameworkBundle\Model\Product\Brand;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Prezent\Doctrine\Translatable\Annotation as Prezent;
+use Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\Annotation as Shopsys;
 use Shopsys\FrameworkBundle\Model\Localization\AbstractTranslatableEntity;
 
 /**
@@ -42,6 +43,13 @@ class Brand extends AbstractTranslatableEntity
      * @ORM\OneToMany(targetEntity="Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain", mappedBy="brand", fetch="EXTRA_LAZY")
      */
     protected $domains;
+
+    /**
+     * @var int|null
+     *
+     * @see \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomainIdListener
+     */
+    protected $currentDomainId;
 
     /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Brand\BrandData $brandData
@@ -102,6 +110,14 @@ class Brand extends AbstractTranslatableEntity
     }
 
     /**
+     * @return \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain[]
+     */
+    public function getDomains()
+    {
+        return $this->domains;
+    }
+
+    /**
      * @param \Shopsys\FrameworkBundle\Model\Product\Brand\BrandData $brandData
      */
     protected function setDomains(BrandData $brandData)
@@ -125,8 +141,11 @@ class Brand extends AbstractTranslatableEntity
      */
     protected function domain(int $domainId = null)
     {
-        if (!$domainId) {
-            throw new \Exception('Implicit domain ID not implemented.');
+        if ($domainId === null) {
+            if ($this->currentDomainId === null) {
+                throw new \Exception('Implicit domain ID not set.');
+            }
+            $domainId = $this->currentDomainId;
         }
 
         foreach ($this->domains as $domain) {

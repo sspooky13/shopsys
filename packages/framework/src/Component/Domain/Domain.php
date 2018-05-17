@@ -171,6 +171,14 @@ class Domain implements DomainIdsProviderInterface
     /**
      * @return bool
      */
+    public function isCurrentDomainKnown()
+    {
+        return $this->currentDomainConfig !== null;
+    }
+
+    /**
+     * @return bool
+     */
     public function isMultidomain()
     {
         return count($this->getAll()) > 1;

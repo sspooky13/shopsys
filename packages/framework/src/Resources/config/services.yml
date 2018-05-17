@@ -804,3 +804,6 @@ services:
     class: Metadata\MetadataFactory
     arguments:
       - '@shopsys.multidomain.driver_chain'
+
+  Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomainIdListener:
+    tags: [ doctrine.event_subscriber ]

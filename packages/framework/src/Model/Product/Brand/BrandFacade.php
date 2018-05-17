@@ -142,13 +142,4 @@ class BrandFacade
     {
         return $this->brandRepository->getAll();
     }
-
-    /**
-     * @param \Shopsys\FrameworkBundle\Model\Product\Brand\Brand $brand
-     * @return \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain[]
-     */
-    public function getBrandDomainsByBrand(Brand $brand)
-    {
-        return $this->brandRepository->getBrandDomainsByBrand($brand);
-    }
 }
