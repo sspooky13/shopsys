@@ -3,19 +3,29 @@
 namespace Shopsys\FrameworkBundle\Model\Product\Brand;
 
 use Doctrine\ORM\Mapping as ORM;
-use Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\Annotation as Shopsys;
-use Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\Entity\AbstractDomain;
 
 /**
  * @ORM\Table(name="brand_domains")
  * @ORM\Entity
  */
-class BrandDomain extends AbstractDomain
+class BrandDomain
 {
     /**
-     * @Shopsys\Multidomain(targetEntity="Shopsys\FrameworkBundle\Model\Product\Brand\Brand")
+     * @var \Shopsys\FrameworkBundle\Model\Product\Brand\Brand
+     *
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Shopsys\FrameworkBundle\Model\Product\Brand\Brand", inversedBy="domains")
+     * @ORM\JoinColumn(nullable=false, name="brand_id", referencedColumnName="id", onDelete="CASCADE")
      */
-    protected $multidomain;
+    protected $brand;
+
+    /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     */
+    protected $domainId;
 
     /**
      * @var string|null
@@ -37,6 +47,24 @@ class BrandDomain extends AbstractDomain
      * @ORM\Column(type="text", nullable=true)
      */
     protected $seoH1;
+
+    /**
+     * @param \Shopsys\FrameworkBundle\Model\Product\Brand\Brand $brand
+     * @param int $domainId
+     */
+    public function __construct(Brand $brand, $domainId)
+    {
+        $this->brand = $brand;
+        $this->domainId = $domainId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDomainId()
+    {
+        return $this->domainId;
+    }
 
     /**
      * @return string|null

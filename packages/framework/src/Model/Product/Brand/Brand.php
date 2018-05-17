@@ -5,19 +5,14 @@ namespace Shopsys\FrameworkBundle\Model\Product\Brand;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Prezent\Doctrine\Translatable\Annotation as Prezent;
-use Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\Annotation as Shopsys;
-use Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\Entity\MultidomainTrait;
-use Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\MultidomainInterface;
 use Shopsys\FrameworkBundle\Model\Localization\AbstractTranslatableEntity;
 
 /**
  * @ORM\Table(name="brands")
  * @ORM\Entity
  */
-class Brand extends AbstractTranslatableEntity implements MultidomainInterface
+class Brand extends AbstractTranslatableEntity
 {
-    use MultidomainTrait;
-
     /**
      * @var int
      *
@@ -42,9 +37,9 @@ class Brand extends AbstractTranslatableEntity implements MultidomainInterface
     protected $translations;
 
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain[]
+     * @var \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain[]|\Doctrine\Common\Collections\ArrayCollection
      *
-     * @Shopsys\Domains(targetEntity="Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain")
+     * @ORM\OneToMany(targetEntity="Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain", mappedBy="brand", fetch="EXTRA_LAZY")
      */
     protected $domains;
 
@@ -111,30 +106,66 @@ class Brand extends AbstractTranslatableEntity implements MultidomainInterface
      */
     protected function setDomains(BrandData $brandData)
     {
-        foreach ($brandData->seoTitles as $domainId => $seoTitle) {
+        $domainIds = array_unique(array_merge(
+            array_keys($brandData->seoTitles),
+            array_keys($brandData->seoH1s),
+            array_keys($brandData->seoMetaDescriptions)
+        ));
+        foreach ($domainIds as $domainId) {
             $brandDomain = $this->domain($domainId);
-            /* @var $brandDomain \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain */
-            $brandDomain->setSeoTitle($seoTitle);
+            $brandDomain->setSeoTitle($brandData->seoTitles[$domainId]);
+            $brandDomain->setSeoH1($brandData->seoH1s[$domainId]);
+            $brandDomain->setSeoMetaDescription($brandData->seoMetaDescriptions[$domainId]);
         }
-        foreach ($brandData->seoH1s as $domainId => $seoH1) {
-            $brandDomain = $this->domain($domainId);
-            /* @var $brandDomain \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain */
-            $brandDomain->setSeoH1($seoH1);
-        }
-        foreach ($brandData->seoMetaDescriptions as $domainId => $seoMetaDescription) {
-            $brandDomain = $this->domain($domainId);
-            /* @var $brandDomain \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain */
-            $brandDomain->setSeoMetaDescription($seoMetaDescription);
-        }
-        $this->domain();
     }
 
     /**
+     * @param int|null $domainId
      * @return \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomain
      */
-    protected function createDomain()
+    protected function domain(int $domainId = null)
     {
-        return new BrandDomain();
+        if (!$domainId) {
+            throw new \Exception('Implicit domain ID not implemented.');
+        }
+
+        foreach ($this->domains as $domain) {
+            if ($domain->getDomainId() === $domainId) {
+                return $domain;
+            }
+        }
+
+        $domain = new BrandDomain($this, $domainId);
+        $this->domains[$domainId] = $domain;
+
+        return $domain;
+    }
+
+    /**
+     * @param int|null $domainId
+     * @return string|null
+     */
+    public function getSeoTitle(int $domainId = null)
+    {
+        return $this->domain($domainId)->getSeoTitle();
+    }
+
+    /**
+     * @param int|null $domainId
+     * @return string|null
+     */
+    public function getSeoMetaDescription(int $domainId = null)
+    {
+        return $this->domain($domainId)->getSeoMetaDescription();
+    }
+
+    /**
+     * @param int|null $domainId
+     * @return string|null
+     */
+    public function getSeoH1(int $domainId = null)
+    {
+        return $this->domain($domainId)->getSeoH1();
     }
 
     /**

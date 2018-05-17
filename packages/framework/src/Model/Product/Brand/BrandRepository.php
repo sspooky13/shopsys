@@ -42,7 +42,7 @@ class BrandRepository
     public function getBrandDomainsByBrand(Brand $brand)
     {
         return $this->getBrandDomainRepository()->findBy([
-            'multidomain' => $brand,
+            'brand' => $brand,
         ]);
     }
 
@@ -79,7 +79,7 @@ class BrandRepository
         $queryBuilder = $this->em->createQueryBuilder()
             ->select('bd')
             ->from(BrandDomain::class, 'bd', 'bd.domainId')
-            ->where('bd.multidomain = :brand')->setParameter('brand', $brand)
+            ->where('bd.brand = :brand')->setParameter('brand', $brand)
             ->orderBy('bd.domainId', 'ASC');
 
         return $queryBuilder->getQuery()->execute();
