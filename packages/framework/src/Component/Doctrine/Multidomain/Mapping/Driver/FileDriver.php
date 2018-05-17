@@ -23,6 +23,11 @@ use Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\Mapping\MultidomainMe
 abstract class FileDriver implements DriverInterface
 {
     /**
+     * @var \Doctrine\Common\Persistence\Mapping\Driver\FileLocator
+     */
+    private $locator;
+
+    /**
      * Constructor
      *
      * @param FileLocator $locator

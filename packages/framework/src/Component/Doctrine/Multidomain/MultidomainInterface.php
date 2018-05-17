@@ -17,14 +17,14 @@ interface MultidomainInterface
     /**
      * Get all domains
      *
-     * @return ArrayCollection
+     * @return \Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\DomainInterface[]|\Doctrine\Common\Collections\ArrayCollection
      */
     public function getDomains();
 
     /**
      * Add a new domain
      *
-     * @param DomainInterface $domain
+     * @param \Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\DomainInterface $domain
      * @return self
      */
     public function addDomain(DomainInterface $domain);
@@ -32,7 +32,7 @@ interface MultidomainInterface
     /**
      * Remove a domain
      *
-     * @param DomainInterface $domain
+     * @param \Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\DomainInterface $domain
      * @return self
      */
     public function removeDomain(DomainInterface $domain);

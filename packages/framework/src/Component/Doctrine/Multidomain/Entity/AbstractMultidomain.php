@@ -35,7 +35,7 @@ abstract class AbstractMultidomain implements MultidomainInterface
     /**
      * Get the domains
      *
-     * @return ArrayCollection
+     * @return \Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\DomainInterface[]|\Doctrine\Common\Collections\ArrayCollection
      */
     public function getDomains()
     {
