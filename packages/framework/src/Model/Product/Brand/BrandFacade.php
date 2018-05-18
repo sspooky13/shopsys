@@ -40,18 +40,12 @@ class BrandFacade
     protected $brandFactory;
 
     /**
-     * @var \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomainFactoryInterface
-     */
-    protected $brandDomainFactory;
-
-    /**
      * @param \Doctrine\ORM\EntityManagerInterface $em
      * @param \Shopsys\FrameworkBundle\Model\Product\Brand\BrandRepository $brandRepository
      * @param \Shopsys\FrameworkBundle\Component\Image\ImageFacade $imageFacade
      * @param \Shopsys\FrameworkBundle\Component\Router\FriendlyUrl\FriendlyUrlFacade $friendlyUrlFacade
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
      * @param \Shopsys\FrameworkBundle\Model\Product\Brand\BrandFactoryInterface $brandFactory
-     * @param \Shopsys\FrameworkBundle\Model\Product\Brand\BrandDomainFactoryInterface $brandDomainFactory
      */
     public function __construct(
         EntityManagerInterface $em,
@@ -59,8 +53,7 @@ class BrandFacade
         ImageFacade $imageFacade,
         FriendlyUrlFacade $friendlyUrlFacade,
         Domain $domain,
-        BrandFactoryInterface $brandFactory,
-        BrandDomainFactoryInterface $brandDomainFactory
+        BrandFactoryInterface $brandFactory
     ) {
         $this->em = $em;
         $this->brandRepository = $brandRepository;
@@ -68,7 +61,6 @@ class BrandFacade
         $this->friendlyUrlFacade = $friendlyUrlFacade;
         $this->domain = $domain;
         $this->brandFactory = $brandFactory;
-        $this->brandDomainFactory = $brandDomainFactory;
     }
 
     /**
