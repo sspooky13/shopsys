@@ -35,6 +35,7 @@ class CurrentCategoryResolver
     {
         $routeName = $request->get('_route');
 
+        // To be extensible, this should be implemented as composite CurrentCategoryResolver with two registered resolvers
         if ($routeName === 'front_product_list') {
             $categoryId = $request->get('id');
             $currentCategory = $this->categoryFacade->getById($categoryId);
