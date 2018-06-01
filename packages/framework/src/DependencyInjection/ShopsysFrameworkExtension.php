@@ -5,6 +5,7 @@ namespace Shopsys\FrameworkBundle\DependencyInjection;
 use Shopsys\FrameworkBundle\Component\Doctrine\Multidomain\EventListener\MultidomainListener;
 use Shopsys\FrameworkBundle\Component\Environment\EnvironmentType;
 use Shopsys\FrameworkBundle\Component\Grid\InlineEdit\GridInlineEditInterface;
+use Shopsys\FrameworkBundle\DemoData\DemoDataFixtureInterface;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -31,5 +32,7 @@ class ShopsysFrameworkExtension extends Extension
 
         $container->registerForAutoconfiguration(GridInlineEditInterface::class)
             ->addTag('shopsys.grid_inline_edit');
+        $container->registerForAutoconfiguration(DemoDataFixtureInterface::class)
+            ->addTag('shopsys.demo_data_fixture');
     }
 }

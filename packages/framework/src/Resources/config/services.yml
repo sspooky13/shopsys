@@ -31,6 +31,9 @@ services:
     resource: '../../Controller/'
     tags: ['controller.service_arguments']
 
+  Shopsys\FrameworkBundle\DemoData\DemoDataRegistry:
+    arguments: [!tagged shopsys.demo_data_fixture]
+
   doctrine.orm.default_entity_manager:
     class: '%doctrine.orm.entity_manager.class%'
     factory: ['%doctrine.orm.entity_manager.class%', create]
