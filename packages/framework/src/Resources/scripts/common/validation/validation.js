@@ -4,19 +4,29 @@
     Shopsys.validation = Shopsys.validation || {};
 
     $(document).ready(function () {
-        $('.js-no-validate-button').click(function () {
-            $(this).closest('form').addClass('js-no-validate');
-        });
-        $('.js-validation-error-close').click(function () {
-            $(this).closest('.js-validation-error').hide();
-        });
-        $('.js-validation-error-toggle').click(function () {
-            $(this)
-                .closest('.js-validation-errors-list')
-                .find('.js-validation-error')
-                .toggle();
-        });
+        Shopsys.validation.refreshBindings();
     });
+
+    function invalidateForm () {
+        $(this).closest('form').addClass('js-no-validate');
+    }
+
+    function closeError () {
+        $(this).closest('.js-validation-error').hide();
+    }
+
+    function toggleError () {
+        $(this)
+            .closest('.js-validation-errors-list')
+            .find('.js-validation-error')
+            .toggle();
+    }
+
+    Shopsys.validation.refreshBindings = function () {
+        $('.js-no-validate-button').off('click', invalidateForm).click(invalidateForm);
+        $('.js-validation-error-close').off('click', closeError).click(closeError);
+        $('.js-validation-error-toggle').off('click', toggleError).click(toggleError);
+    };
 
     Shopsys.validation.findElementsToHighlight = function ($formInput) {
         return $formInput.filter('input, select, textarea, .form-line');

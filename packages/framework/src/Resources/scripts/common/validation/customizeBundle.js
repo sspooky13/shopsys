@@ -4,7 +4,10 @@
     Shopsys.validation = Shopsys.validation || {};
 
     Shopsys.validation.addNewItemToCollection = function (collectionSelector, itemIndex) {
-        $($(collectionSelector)).jsFormValidator('addPrototype', itemIndex);
+        $(collectionSelector).jsFormValidator('addPrototype', itemIndex);
+        if (Shopsys.validation.refreshBindings instanceof Function) {
+            Shopsys.validation.refreshBindings();
+        }
         Shopsys.formChangeInfo.showInfo();
     };
 
