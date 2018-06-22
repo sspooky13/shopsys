@@ -13,7 +13,7 @@ class ProductEditPage extends AbstractPage
     {
         $this->tester->amOnPage('/admin/product/edit/' . $productId);
         // scroll to have the button visible because of the fixed bars
-        $this->tester->scrollTo(['css' => '.js-parameters-item-add'], null, -300);
+        $this->tester->see(['css' => '.js-parameters-item-add']);
         $this->tester->clickByCss('.js-parameters-item-add');
         $this->tester->clickByText('Save changes');
     }

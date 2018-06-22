@@ -13,7 +13,7 @@ class AdminProductSaveFormWithEmptyParametersCest
         LoginPage $loginPage,
         ProductEditPage $productEditPage
     ) {
-        $me->wantTo('not able to save invalid form');
+        $me->wantTo('see that I am not able to save an invalid form');
         $loginPage->loginAsAdmin();
 
         $productEditPage->saveInvalidForm(5);
