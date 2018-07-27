@@ -64,7 +64,8 @@
 
     <target name="standards-packages" description="Checks coding standards in all packages and microservices.">
         <exec executable="${path.phplint.executable}" logoutput="true" passthru="true" checkreturn="true">
-            <arg path="./{packages,microservices}/*/src"/>
+            <arg path="./packages/*/src"/>
+            <arg path="./microservices/*/src"/>
             <arg path="./packages/*/tests" />
         </exec>
         <exec executable="${path.ecs.executable}" logoutput="true" passthru="true" checkreturn="true">
@@ -143,7 +144,8 @@
             <arg path="./phpstan.neon"/>
             <arg path="${path.src}"/>
             <arg path="${path.tests}"/>
-            <arg path="./{packages,microservices}/*/src"/>
+            <arg path="./packages/*/src"/>
+            <arg path="./microservices/*/src"/>
             <arg path="./packages/*/tests"/>
             <arg value="--level=0"/>
         </exec>
