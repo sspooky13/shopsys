@@ -8,9 +8,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Elasticsearch\ElasticsearchStructureFacade;
-use Shopsys\FrameworkBundle\Component\Elasticsearch\Exception\DefinitionNotFoundException;
 use Shopsys\FrameworkBundle\Component\Elasticsearch\Exception\ElasticsearchStructureException;
-use Shopsys\FrameworkBundle\Component\Elasticsearch\Exception\InvalidJsonException;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ElasticsearchStructureFacadeTest extends TestCase

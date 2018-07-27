@@ -39,13 +39,14 @@ class ElasticsearchStructureFacade
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    public function createIndexes(OutputInterface $output) {
+    public function createIndexes(OutputInterface $output)
+    {
         foreach ($this->domain->getAllIds() as $id) {
             $output->writeln(sprintf('Creating index for id %s', $id));
             $definition = $this->getDefinition($id);
             $indices = $this->client->indices();
             $indices->create([
-                'index' => (string) $id,
+                'index' => (string)$id,
                 'body' => $definition,
             ]);
             $output->writeln('Index created');
@@ -55,12 +56,13 @@ class ElasticsearchStructureFacade
     /**
      * @param \Symfony\Component\Console\Output\OutputInterface $output
      */
-    public function deleteIndexes(OutputInterface $output) {
+    public function deleteIndexes(OutputInterface $output)
+    {
         foreach ($this->domain->getAllIds() as $id) {
             $output->writeln(sprintf('Deleting index for id %s', $id));
             $indices = $this->client->indices();
-            if ($indices->exists(['index' => (string) $id])) {
-                $indices->delete(['index' => (string) $id]);
+            if ($indices->exists(['index' => (string)$id])) {
+                $indices->delete(['index' => (string)$id]);
                 $output->writeln(sprintf('Index %s deleted', $id));
             } else {
                 $output->writeln(sprintf('Index %s not found, skipping', $id));
@@ -87,5 +89,4 @@ class ElasticsearchStructureFacade
 
         return $definition;
     }
-
 }
