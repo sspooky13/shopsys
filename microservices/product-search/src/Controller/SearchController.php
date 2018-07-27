@@ -21,7 +21,7 @@ class SearchController extends Controller
 
     public function productIdsAction(Request $request, int $domainId): JsonResponse
     {
-        $query = $request->query->get('query');
+        $query = $request->query->get('query', '');
 
         return new JsonResponse([
             'productIds' => $this->productSearchRepository->getFoundProductIds($domainId, $query),
