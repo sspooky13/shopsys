@@ -4,8 +4,6 @@ namespace Shopsys\FrameworkBundle\Model\Product\Search;
 
 use Doctrine\ORM\QueryBuilder;
 use Shopsys\FrameworkBundle\Component\Microservice\MicroserviceClient;
-use Shopsys\FrameworkBundle\Component\String\DatabaseSearching;
-use Shopsys\FrameworkBundle\Component\String\TsqueryFactory;
 
 class ProductSearchRepository
 {
