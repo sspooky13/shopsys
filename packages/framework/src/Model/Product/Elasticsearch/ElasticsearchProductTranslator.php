@@ -27,4 +27,13 @@ class ElasticsearchProductTranslator
 
         return $result;
     }
+
+    /**
+     * @param array $data
+     * @return int[]
+     */
+    public function extractIds(array $data): array
+    {
+        return array_column($data, 'id');
+    }
 }

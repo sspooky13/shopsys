@@ -40,23 +40,26 @@ class ElasticsearchProductExporter
     public function export(int $domainId, string $locale): void
     {
         $first = 0;
+        $exportedIds = [];
         do {
-            $exportedCount = $this->exportBatch($domainId, $locale, $first);
+            $batchExportedIds = $this->exportBatch($domainId, $locale, $first);
+            $exportedIds = array_merge($exportedIds, $batchExportedIds);
             $first += self::BATCH_SIZE;
-        } while ($exportedCount);
+        } while (!empty($batchExportedIds));
+        $this->removeNotExported((string)$domainId, $exportedIds);
     }
 
     /**
      * @param int $domainId
      * @param string $locale
      * @param int $first
-     * @return int
+     * @return int[]
      */
-    protected function exportBatch(int $domainId, string $locale, int $first): int
+    protected function exportBatch(int $domainId, string $locale, int $first): array
     {
         $productsData = $this->repository->getProductsData($domainId, $locale, $first, self::BATCH_SIZE);
         if (count($productsData) === 0) {
-            return 0;
+            return [];
         }
 
         $data = $this->translator->translateBulk((string)$domainId, $productsData);
@@ -65,6 +68,29 @@ class ElasticsearchProductExporter
         ];
         $this->client->bulk($params);
 
-        return count($productsData);
+        return $this->translator->extractIds($productsData);
+    }
+
+    /**
+     * @param string $index
+     * @param int[] $exportedIds
+     */
+    protected function removeNotExported(string $index, array $exportedIds): void
+    {
+        $this->client->deleteByQuery([
+            'index' => $index,
+            'type' => '_doc',
+            'body' => [
+                'query' => [
+                    'bool' => [
+                        'must_not' => [
+                            'ids' => [
+                                'values' => $exportedIds,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
     }
 }

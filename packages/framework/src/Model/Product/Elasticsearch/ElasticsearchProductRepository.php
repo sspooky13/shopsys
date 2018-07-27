@@ -44,8 +44,9 @@ class ElasticsearchProductRepository
      */
     protected function createQueryBuilder(int $domainId, string $locale): QueryBuilder
     {
+        $fields = 'p.id, p.catnum, p.partno, p.ean, t.name, d.description, d.shortDescription';
         $queryBuilder = $this->em->createQueryBuilder()
-            ->select('p.id, p.catnum, p.partno, p.ean, t.name, d.description, d.shortDescription')
+            ->select($fields)
             ->from(Product::class, 'p')
                 ->where('p.variantType != :variantTypeVariant')
             ->join(ProductVisibility::class, 'prv', Join::WITH, 'prv.product = p.id')
@@ -54,7 +55,9 @@ class ElasticsearchProductRepository
             ->join('p.translations', 't')
                 ->andWhere('t.locale = :locale')
             ->join('p.domains', 'd')
-                ->andWhere('d.domainId = :domainId');
+                ->andWhere('d.domainId = :domainId')
+            ->groupBy($fields)
+            ->orderBy('p.id');
 
         $queryBuilder->setParameter('domainId', $domainId)
             ->setParameter('locale', $locale)
