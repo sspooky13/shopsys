@@ -28,7 +28,7 @@ class ProductSearchRepository
             return [];
         }
 
-        $connection = pg_connect("host=postgres dbname=shopsys user=root password=root");
+        $connection = pg_connect('host=postgres dbname=shopsys user=root password=root');
         $sql = '
           SELECT p.id, CASE
                 WHEN (
