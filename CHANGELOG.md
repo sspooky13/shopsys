@@ -59,6 +59,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - [#313 - Streamed logging](https://github.com/shopsys/shopsys/pull/313)
     - monolog logs into streams instead of files (use `docker-compose logs` to access it)
     - see details in the [Logging](/docs/introduction/logging.md) article
+- [#364 - Admin: brand form is rendered via BrandFormType](https://github.com/shopsys/shopsys/pull/364)
+    - template for brand form was modified
+    - new form groups were added into BrandFormType
+    - BrandFormType was modified to work during http smoke testing
 
 #### Fixed
 - [#291 - Unnecessary SQL queries on category detail in admin](https://github.com/shopsys/shopsys/pull/304):
