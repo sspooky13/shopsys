@@ -2,9 +2,7 @@
 
 namespace Shopsys\FrameworkBundle\Model\Category;
 
-use BadMethodCallException;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
-use Shopsys\FrameworkBundle\Component\Image\ImageFacade;
 use Shopsys\FrameworkBundle\Component\Plugin\PluginCrudExtensionFacade;
 use Shopsys\FrameworkBundle\Component\Router\FriendlyUrl\FriendlyUrlFacade;
 
@@ -31,45 +29,21 @@ class CategoryDataFactory implements CategoryDataFactoryInterface
     protected $domain;
 
     /**
-     * @var \Shopsys\FrameworkBundle\Component\Image\ImageFacade|null
-     */
-    protected $imageFacade;
-
-    /**
      * @param \Shopsys\FrameworkBundle\Model\Category\CategoryRepository $categoryRepository
      * @param \Shopsys\FrameworkBundle\Component\Router\FriendlyUrl\FriendlyUrlFacade $friendlyUrlFacade
      * @param \Shopsys\FrameworkBundle\Component\Plugin\PluginCrudExtensionFacade $pluginCrudExtensionFacade
      * @param \Shopsys\FrameworkBundle\Component\Domain\Domain $domain
-     * @param \Shopsys\FrameworkBundle\Component\Image\ImageFacade|null $imageFacade
      */
     public function __construct(
         CategoryRepository $categoryRepository,
         FriendlyUrlFacade $friendlyUrlFacade,
         PluginCrudExtensionFacade $pluginCrudExtensionFacade,
-        Domain $domain,
-        ?ImageFacade $imageFacade = null
+        Domain $domain
     ) {
         $this->categoryRepository = $categoryRepository;
         $this->friendlyUrlFacade = $friendlyUrlFacade;
         $this->pluginCrudExtensionFacade = $pluginCrudExtensionFacade;
         $this->domain = $domain;
-        $this->imageFacade = $imageFacade;
-    }
-
-    /**
-     * @required
-     * @internal This function will be replaced by constructor injection in next major
-     * @param \Shopsys\FrameworkBundle\Component\Image\ImageFacade $imageFacade
-     */
-    public function setImageFacade(ImageFacade $imageFacade): void
-    {
-        if ($this->imageFacade !== null && $this->imageFacade !== $imageFacade) {
-            throw new BadMethodCallException(sprintf('Method "%s" has been already called and cannot be called multiple times.', __METHOD__));
-        }
-        if ($this->imageFacade === null) {
-            @trigger_error(sprintf('The %s() method is deprecated and will be removed in the next major. Use the constructor injection instead.', __METHOD__), E_USER_DEPRECATED);
-            $this->imageFacade = $imageFacade;
-        }
     }
 
     /**
@@ -134,6 +108,5 @@ class CategoryDataFactory implements CategoryDataFactoryInterface
         }
 
         $categoryData->pluginData = $this->pluginCrudExtensionFacade->getAllData('category', $category->getId());
-        $categoryData->image->orderedImages = $this->imageFacade->getImagesByEntityIndexedById($category, null);
     }
 }

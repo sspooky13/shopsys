@@ -868,7 +868,7 @@ class ProductFormType extends AbstractType
         $builderImageGroup
             ->add('images', ImageUploadType::class, [
                 'required' => false,
-                'image_entity_class' => Product::class,
+                'multiple' => true,
                 'file_constraints' => [
                     new Constraints\Image([
                         'mimeTypes' => ['image/png', 'image/jpg', 'image/jpeg', 'image/gif'],

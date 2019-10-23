@@ -150,7 +150,7 @@ class PaymentFacade
     {
         $transports = $this->transportRepository->getAllByIds($paymentData->transports);
         $payment->setTransports($transports);
-        $this->imageFacade->manageImages($payment, $paymentData->image);
+        $this->imageFacade->uploadImage($payment, $paymentData->image->uploadedFiles, null);
         $this->em->flush();
     }
 
