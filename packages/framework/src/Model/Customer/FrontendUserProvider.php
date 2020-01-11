@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Shopsys\FrameworkBundle\Model\Customer;
 
 use DateTime;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Model\Security\TimelimitLoginInterface;
 use Shopsys\FrameworkBundle\Model\Security\UniqueLoginInterface;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -32,10 +35,9 @@ class FrontendUserProvider implements UserProviderInterface
     }
 
     /**
-     * @param string $email
-     * @return \Shopsys\FrameworkBundle\Model\Customer\User
+     * @inheritDoc
      */
-    public function loadUserByUsername($email)
+    public function loadUserByUsername($email): UserInterface
     {
         $user = $this->userRepository->findUserByEmailAndDomain(mb_strtolower($email), $this->domain->getId());
 
@@ -51,10 +53,9 @@ class FrontendUserProvider implements UserProviderInterface
     }
 
     /**
-     * @param \Symfony\Component\Security\Core\User\UserInterface $userInterface
-     * @return \Shopsys\FrameworkBundle\Model\Customer\User
+     * @inheritDoc
      */
-    public function refreshUser(UserInterface $userInterface)
+    public function refreshUser(UserInterface $userInterface): UserInterface
     {
         $class = get_class($userInterface);
         if (!$this->supportsClass($class)) {
@@ -86,10 +87,9 @@ class FrontendUserProvider implements UserProviderInterface
     }
 
     /**
-     * @param string $class
-     * @return bool
+     * @inheritDoc
      */
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return $class === User::class || is_subclass_of($class, User::class);
     }
