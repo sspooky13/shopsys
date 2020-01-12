@@ -8,6 +8,7 @@ use Shopsys\FrameworkBundle\Model\Administrator\Activity\AdministratorActivityFa
 use Shopsys\FrameworkBundle\Model\Administrator\Administrator;
 use Shopsys\FrameworkBundle\Model\Customer\User;
 use Shopsys\FrameworkBundle\Model\Order\OrderFlowFacade;
+use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoginListener
@@ -50,7 +51,7 @@ class LoginListener
         $token = $event->getAuthenticationToken();
         $user = $token->getUser();
 
-        if ($user instanceof TimelimitLoginInterface) {
+        if ($user instanceof AdvancedUserInterface) {
             $user->setLastActivity(new DateTime());
         }
 

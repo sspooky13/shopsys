@@ -6,9 +6,8 @@ namespace Shopsys\FrameworkBundle\Model\Customer;
 
 use DateTime;
 use Shopsys\FrameworkBundle\Component\Domain\Domain;
-use Shopsys\FrameworkBundle\Model\Security\TimelimitLoginInterface;
+use Shopsys\FrameworkBundle\Model\Security\AdvancedUserInterface;
 use Shopsys\FrameworkBundle\Model\Security\UniqueLoginInterface;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -66,10 +65,7 @@ class FrontendUserProvider implements UserProviderInterface
         /** @var \Shopsys\FrameworkBundle\Model\Customer\User $user */
         $user = $userInterface;
 
-        if ($user instanceof TimelimitLoginInterface) {
-            if (time() - $user->getLastActivity()->getTimestamp() > 3600 * 24) {
-                throw new \Symfony\Component\Security\Core\Exception\UsernameNotFoundException('User was too long unactive');
-            }
+        if ($user instanceof AdvancedUserInterface) {
             $user->setLastActivity(new DateTime());
         }
 

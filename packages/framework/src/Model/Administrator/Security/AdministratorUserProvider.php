@@ -8,7 +8,7 @@ use DateTime;
 use Shopsys\FrameworkBundle\Model\Administrator\Activity\AdministratorActivityFacade;
 use Shopsys\FrameworkBundle\Model\Administrator\Administrator;
 use Shopsys\FrameworkBundle\Model\Administrator\AdministratorRepository;
-use Shopsys\FrameworkBundle\Model\Security\TimelimitLoginInterface;
+use Shopsys\FrameworkBundle\Model\Security\AdvancedUserInterface;
 use Shopsys\FrameworkBundle\Model\Security\UniqueLoginInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -78,17 +78,12 @@ class AdministratorUserProvider implements UserProviderInterface
             throw new \Symfony\Component\Security\Core\Exception\AuthenticationExpiredException();
         }
 
-        if ($administrator instanceof TimelimitLoginInterface) {
-            if (time() - $administrator->getLastActivity()->getTimestamp() > 3600 * 5) {
-                throw new \Symfony\Component\Security\Core\Exception\AuthenticationExpiredException('Admin was too long inactive.');
-            }
-            if ($freshAdministrator !== null) {
-                $freshAdministrator->setLastActivity(new DateTime());
-            }
-        }
-
         if ($freshAdministrator === null) {
             throw new \Symfony\Component\Security\Core\Exception\UsernameNotFoundException('Unable to find an active admin');
+        }
+
+        if ($administrator instanceof AdvancedUserInterface) {
+            $freshAdministrator->setLastActivity(new DateTime());
         }
 
         if ($freshAdministrator instanceof Administrator) {

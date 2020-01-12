@@ -5,9 +5,8 @@ namespace Shopsys\FrameworkBundle\Model\Customer;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Serializable;
+use Shopsys\FrameworkBundle\Model\Security\AdvancedUserInterface;
 use Shopsys\FrameworkBundle\Model\Security\Roles;
-use Shopsys\FrameworkBundle\Model\Security\TimelimitLoginInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(
@@ -21,7 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * )
  * @ORM\Entity
  */
-class User implements UserInterface, TimelimitLoginInterface, Serializable
+class User implements AdvancedUserInterface, Serializable
 {
     /**
      * @ORM\Column(type="integer")
@@ -51,7 +50,7 @@ class User implements UserInterface, TimelimitLoginInterface, Serializable
     protected $password;
 
     /**
-     * @var \DateTime
+     * @var \DateTime|null
      */
     protected $lastActivity;
 
@@ -184,17 +183,9 @@ class User implements UserInterface, TimelimitLoginInterface, Serializable
     }
 
     /**
-     * @return \DateTime
+     * @inheritDoc
      */
-    public function getLastActivity()
-    {
-        return $this->lastActivity;
-    }
-
-    /**
-     * @param \DateTime $lastActivity
-     */
-    public function setLastActivity($lastActivity)
+    public function setLastActivity(DateTime $lastActivity): void
     {
         $this->lastActivity = $lastActivity;
     }
@@ -405,5 +396,41 @@ class User implements UserInterface, TimelimitLoginInterface, Serializable
     public function setDeliveryAddress(?DeliveryAddress $deliveryAddress): void
     {
         $this->deliveryAddress = $deliveryAddress;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isAccountNonExpired()
+    {
+        if ($this->lastActivity === null) {
+            return false;
+        }
+
+        return time() - $this->lastActivity->getTimestamp() < 3600 * 24;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isEnabled()
+    {
+        return true;
     }
 }

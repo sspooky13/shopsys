@@ -7,10 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Serializable;
 use Shopsys\FrameworkBundle\Component\Grid\Grid;
+use Shopsys\FrameworkBundle\Model\Security\AdvancedUserInterface;
 use Shopsys\FrameworkBundle\Model\Security\Roles;
-use Shopsys\FrameworkBundle\Model\Security\TimelimitLoginInterface;
 use Shopsys\FrameworkBundle\Model\Security\UniqueLoginInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
@@ -21,7 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *   }
  * )
  */
-class Administrator implements UserInterface, Serializable, UniqueLoginInterface, TimelimitLoginInterface
+class Administrator implements AdvancedUserInterface, Serializable, UniqueLoginInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -188,14 +187,6 @@ class Administrator implements UserInterface, Serializable, UniqueLoginInterface
     }
 
     /**
-     * @return \DateTime
-     */
-    public function getLastActivity()
-    {
-        return $this->lastActivity;
-    }
-
-    /**
      * @return bool
      */
     public function isSuperadmin()
@@ -254,7 +245,7 @@ class Administrator implements UserInterface, Serializable, UniqueLoginInterface
     /**
      * @param \DateTime $lastActivity
      */
-    public function setLastActivity($lastActivity)
+    public function setLastActivity(DateTime $lastActivity): void
     {
         $this->lastActivity = $lastActivity;
     }
@@ -362,5 +353,48 @@ class Administrator implements UserInterface, Serializable, UniqueLoginInterface
     public function addGridLimit(AdministratorGridLimit $administratorGridLimit): void
     {
         $this->gridLimits->add($administratorGridLimit);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isAccountNonExpired()
+    {
+        if ($this->lastActivity === null) {
+            return true;
+        }
+
+        d(time());
+        d($this->lastActivity->getTimestamp());
+        $a = new DateTime('+ 100 hours');
+        d($a->getTimestamp());
+        d($a->getTimestamp() - $this->lastActivity->getTimestamp());
+        d($a->getTimestamp() - $this->lastActivity->getTimestamp() < 3600 * 5);
+        return $a->getTimestamp() - $this->lastActivity->getTimestamp() < 3600 * 5;
+        return time() - $this->lastActivity->getTimestamp() < 3600 * 5;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isAccountNonLocked()
+    {
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isCredentialsNonExpired()
+    {
+        return true;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function isEnabled()
+    {
+        return true;
     }
 }
