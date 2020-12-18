@@ -1,5 +1,8 @@
 export default class Register {
 
+    /**
+     * @returns {Register}
+     */
     constructor () {
 
         Register.CALL_PRIORITY_NORMAL = 500;
@@ -15,6 +18,11 @@ export default class Register {
         return this;
     }
 
+    /**
+     * @param {Object} callback
+     * @param {number|string} arg1
+     * @param {number|string=} arg2
+     */
     registerCallback (callback, arg1, arg2) {
 
         let callPriority = Register.CALL_PRIORITY_NORMAL;
@@ -45,6 +53,10 @@ export default class Register {
         });
     }
 
+    /**
+     * @param {string} callbackName
+     * @param {Object} newCallback
+     */
     replaceCallback (callbackName, newCallback) {
         this.callbackQueue = this.callbackQueue.map(callbackItem => {
             if (callbackItem.callbackName === callbackName) {
@@ -58,10 +70,16 @@ export default class Register {
         });
     }
 
+    /**
+     * @param {string} callbackName
+     */
     removeCallback (callbackName) {
         this.callbackQueue = this.callbackQueue.filter(callbackItem => callbackItem.callbackName !== callbackName);
     }
 
+    /**
+     * @param {jQuery} $container
+     */
     registerNewContent ($container) {
         this.callbackQueue.sort(function (a, b) {
             return a.callPriority - b.callPriority;
