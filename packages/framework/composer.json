@@ -103,7 +103,7 @@
         "phpstan/phpstan-symfony": "^0.12.18",
         "psr/event-dispatcher": "^1.0.0",
         "shopsys/coding-standards": "9.2.x-dev",
-        "sspooky13/yaml-standards": "^5.0.0",
+        "sspooky13/yaml-standards": "^6.0.0",
         "symfony/var-dumper": "^4.4"
     },
     "extra": {

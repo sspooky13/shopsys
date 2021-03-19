@@ -171,7 +171,7 @@
         "phpunit/phpunit": "^8.0",
         "psr/event-dispatcher": "^1.0.0",
         "slevomat/coding-standard": "^6.3.5",
-        "sspooky13/yaml-standards": "^5.0.0",
+        "sspooky13/yaml-standards": "^6.0.0",
         "symfony/var-dumper": "^4.4.0",
         "symplify/changelog-linker": "^7.3.18",
         "symplify/easy-coding-standard": "^7.3.18",
