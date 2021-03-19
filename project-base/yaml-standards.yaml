@@ -13,3 +13,13 @@
             parameters:
                 { serviceAliasingType: long, indents: 4 }
         -   pathToChecker: YamlStandards\Model\YamlEmptyLineAtEnd\YamlEmptyLineAtEndChecker
+
+-   pathsToCheck:
+        - ./project-base/service*.{yml,yaml}
+    excludedPaths:
+        - ./project-base/node_modules/service*.{yml,yaml}
+    checkers:
+        -   pathToChecker: YamlStandards\Model\YamlAlphabetical\YamlAlphabeticalChecker
+            parameters:
+                depth: 3
+                prioritizedKeys: [ imports ]

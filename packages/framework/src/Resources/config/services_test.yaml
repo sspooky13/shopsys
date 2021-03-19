@@ -1,47 +1,41 @@
 services:
     _defaults:
-        autowire: true
         autoconfigure: true
+        autowire: true
         public: true
 
     Doctrine\Common\Cache\ArrayCache: ~
 
-    Shopsys\FrameworkBundle\Model\Feed\FeedRegistry:
+    Shopsys\FrameworkBundle\Component\DataFixture\PersistentReferenceFacade: ~
+
+    Shopsys\FrameworkBundle\Component\Doctrine\DatabaseSchemaFacade:
         arguments:
-            $knownTypes: ['daily', 'hourly']
-            $defaultType: 'daily'
+            - '%shopsys.default_db_schema_filepath%'
+
+    Shopsys\FrameworkBundle\Component\Domain\Config\DomainsConfigLoader: ~
 
     Shopsys\FrameworkBundle\Component\Domain\Domain:
-        factory: ['@Shopsys\FrameworkBundle\Component\Domain\DomainFactory', create]
         arguments:
             - '%shopsys.domain_config_filepath%'
             - '%shopsys.domain_urls_config_filepath%'
+        factory: ['@Shopsys\FrameworkBundle\Component\Domain\DomainFactory', create]
 
-    Shopsys\FrameworkBundle\Model\Product\ProductOnCurrentDomainFacade: ~
+    Shopsys\FrameworkBundle\Component\Domain\DomainDataCreator: ~
 
-    # @deprecated Registering this service is necessary to avoid BC break. It will be removed in next major version.
-    Shopsys\FrameworkBundle\Model\Localization\TranslatableListener:
-        class: Tests\FrameworkBundle\Test\TestTranslatableListener
-        arguments:
-            $adminLocale: '%shopsys.admin_locale%'
-
-    prezent_doctrine_translatable.listener:
-        class: Tests\FrameworkBundle\Test\TestTranslatableListener
-        tags:
-            - 'doctrine.event_subscriber'
-        arguments:
-            $factory: '@prezent_doctrine_translatable.metadata_factory'
-            $domain: '@Shopsys\FrameworkBundle\Component\Domain\Domain'
-            $administrationFacade: '@Shopsys\FrameworkBundle\Model\Administration\AdministrationFacade'
-            $adminLocale: '%shopsys.admin_locale%'
-
-    Shopsys\FrameworkBundle\Model\Product\Elasticsearch\ProductExportSubscriber:
-        autoconfigure: false
+    Shopsys\FrameworkBundle\Component\Domain\DomainDbFunctionsFacade:
 
     Shopsys\FrameworkBundle\Component\Elasticsearch\IndexDefinitionLoader:
         arguments:
             $indexDefinitionsDirectory: '%shopsys.elasticsearch.structure_dir%'
             $indexPrefix: 'test_%env(ELASTIC_SEARCH_INDEX_PREFIX)%'
+
+    Shopsys\FrameworkBundle\Component\Plugin\PluginDataFixtureRegistry: ~
+
+    Shopsys\FrameworkBundle\Component\String\HashGenerator: ~
+
+    Shopsys\FrameworkBundle\Form\Admin\AdvancedSearch\AdvancedSearchOrderFilterTranslation: ~
+
+    Shopsys\FrameworkBundle\Form\Admin\AdvancedSearch\AdvancedSearchProductFilterTranslation: ~
 
     # @deprecated - services between these two comment blocks are supposed to be removed in next major version
     # as it is no longer necessary to be defined here - start -------->
@@ -50,24 +44,81 @@ services:
 
     Shopsys\FrameworkBundle\Model\Administrator\AdministratorRepository: ~
 
-    Shopsys\FrameworkBundle\Form\Admin\AdvancedSearch\AdvancedSearchOrderFilterTranslation: ~
-
-    Shopsys\FrameworkBundle\Form\Admin\AdvancedSearch\AdvancedSearchProductFilterTranslation: ~
-
     Shopsys\FrameworkBundle\Model\Administrator\Security\AdministratorFrontSecurityFacade: ~
 
-    Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityFacade: ~
+    Shopsys\FrameworkBundle\Model\AdvancedSearch\OrderAdvancedSearchConfig: ~
 
-    Shopsys\FrameworkBundle\Model\Security\AdminLogoutHandler: ~
+    Shopsys\FrameworkBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig: ~
 
-    Shopsys\FrameworkBundle\Model\Product\Brand\BrandFacade: ~
+    Shopsys\FrameworkBundle\Model\Cart\CartFacade: ~
 
-    Shopsys\FrameworkBundle\Model\Product\Brand\BrandFactoryInterface:
-        alias: Shopsys\FrameworkBundle\Model\Product\Brand\BrandFactory
+    Shopsys\FrameworkBundle\Model\Cart\CartFactory: ~
 
-    Shopsys\FrameworkBundle\Model\Security\CustomerLoginHandler: ~
+    Shopsys\FrameworkBundle\Model\Cart\CartRepository: ~
+
+    Shopsys\FrameworkBundle\Model\Cart\Item\CartItemFactoryInterface:
+        alias: Shopsys\FrameworkBundle\Model\Cart\Item\CartItemFactory
+
+    Shopsys\FrameworkBundle\Model\Cart\Item\CartItemRepository: ~
+
+    Shopsys\FrameworkBundle\Model\Cart\Watcher\CartWatcher: ~
+
+    Shopsys\FrameworkBundle\Model\Cart\Watcher\CartWatcherFacade:
+
+    Shopsys\FrameworkBundle\Model\Category\CategoryFacade: ~
+
+    Shopsys\FrameworkBundle\Model\Category\CategoryFactoryInterface:
+        alias: Shopsys\FrameworkBundle\Model\Category\CategoryFactory
+
+    Shopsys\FrameworkBundle\Model\Category\CategoryRepository: ~
+
+    Shopsys\FrameworkBundle\Model\Country\CountryFacade: ~
 
     Shopsys\FrameworkBundle\Model\Customer\CustomerFacade: ~
+
+    Shopsys\FrameworkBundle\Model\Customer\User\CurrentCustomerUser: ~
+
+    Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserUpdateDataFactoryInterface:
+        alias: Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserUpdateDataFactory
+
+    Shopsys\FrameworkBundle\Model\Feed\Delivery\DeliveryFeedItemRepository: ~
+
+    Shopsys\FrameworkBundle\Model\Feed\FeedRegistry:
+        arguments:
+            $knownTypes: ['daily', 'hourly']
+            $defaultType: 'daily'
+
+    # @deprecated Registering this service is necessary to avoid BC break. It will be removed in next major version.
+    Shopsys\FrameworkBundle\Model\Localization\TranslatableListener:
+        arguments:
+            $adminLocale: '%shopsys.admin_locale%'
+        class: Tests\FrameworkBundle\Test\TestTranslatableListener
+
+    Shopsys\FrameworkBundle\Model\Newsletter\NewsletterRepository: ~
+
+    Shopsys\FrameworkBundle\Model\Order\OrderFacade: ~
+
+    Shopsys\FrameworkBundle\Model\Order\OrderNumberSequenceRepository: ~
+
+    Shopsys\FrameworkBundle\Model\Order\OrderRepository: ~
+
+    Shopsys\FrameworkBundle\Model\Order\Preview\OrderPreviewFactory: ~
+
+    Shopsys\FrameworkBundle\Model\Order\PromoCode\CurrentPromoCodeFacade: ~
+
+    Shopsys\FrameworkBundle\Model\Order\Status\OrderStatusFacade: ~
+
+    Shopsys\FrameworkBundle\Model\Payment\IndependentPaymentVisibilityCalculation: ~
+
+    Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface:
+        alias: Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactory
+
+    Shopsys\FrameworkBundle\Model\Payment\PaymentFacade: ~
+
+    Shopsys\FrameworkBundle\Model\Payment\PaymentFactoryInterface:
+        alias: Shopsys\FrameworkBundle\Model\Payment\PaymentFactory
+
+    Shopsys\FrameworkBundle\Model\Payment\PaymentRepository: ~
 
     Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyDataFactoryInterface:
         alias: Shopsys\FrameworkBundle\Model\Pricing\Currency\CurrencyDataFactory
@@ -79,67 +130,23 @@ services:
 
     Shopsys\FrameworkBundle\Model\Pricing\Currency\Grid\CurrencyInlineEdit: ~
 
-    Shopsys\FrameworkBundle\Model\Cart\CartFactory: ~
+    Shopsys\FrameworkBundle\Model\Pricing\Group\Grid\PricingGroupInlineEdit: ~
 
-    Shopsys\FrameworkBundle\Model\Category\CategoryFacade: ~
+    Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupFacade: ~
 
-    Shopsys\FrameworkBundle\Model\Category\CategoryFactoryInterface:
-        alias: Shopsys\FrameworkBundle\Model\Category\CategoryFactory
+    Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade: ~
 
-    Shopsys\FrameworkBundle\Model\Cart\Item\CartItemRepository: ~
-
-    Shopsys\FrameworkBundle\Model\Category\CategoryRepository: ~
-
-    Shopsys\FrameworkBundle\Model\Cart\Watcher\CartWatcher: ~
-
-    Shopsys\FrameworkBundle\Model\Cart\CartFacade: ~
-
-    Shopsys\FrameworkBundle\Model\Country\CountryFacade: ~
-
-    Shopsys\FrameworkBundle\Model\Customer\User\CurrentCustomerUser: ~
-
-    Shopsys\FrameworkBundle\Model\Order\PromoCode\CurrentPromoCodeFacade: ~
-
-    Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserUpdateDataFactoryInterface:
-        alias: Shopsys\FrameworkBundle\Model\Customer\User\CustomerUserUpdateDataFactory
-
-    Shopsys\FrameworkBundle\Model\Feed\Delivery\DeliveryFeedItemRepository: ~
-
-    Shopsys\FrameworkBundle\Component\Doctrine\DatabaseSchemaFacade:
-        arguments:
-            - '%shopsys.default_db_schema_filepath%'
-
-    Shopsys\FrameworkBundle\Component\Domain\Config\DomainsConfigLoader: ~
-
-    Shopsys\FrameworkBundle\Component\Domain\DomainDataCreator: ~
-
-    Shopsys\FrameworkBundle\Component\Domain\DomainDbFunctionsFacade:
-
-    Shopsys\FrameworkBundle\Model\Product\Flag\FlagFacade: ~
-
-    Shopsys\FrameworkBundle\Model\Product\Flag\FlagInlineEdit: ~
-
-    Shopsys\FrameworkBundle\Component\String\HashGenerator: ~
-
-    Shopsys\FrameworkBundle\Model\Transport\IndependentTransportVisibilityCalculation: ~
-
-    Shopsys\FrameworkBundle\Model\Payment\IndependentPaymentVisibilityCalculation: ~
+    Shopsys\FrameworkBundle\Model\Product\Availability\AvailabilityFacade: ~
 
     Shopsys\FrameworkBundle\Model\Product\BestsellingProduct\ManualBestsellingProductFacade: ~
 
-    Shopsys\FrameworkBundle\Model\Newsletter\NewsletterRepository: ~
+    Shopsys\FrameworkBundle\Model\Product\Brand\BrandFacade: ~
 
-    Shopsys\FrameworkBundle\Model\AdvancedSearch\OrderAdvancedSearchConfig: ~
+    Shopsys\FrameworkBundle\Model\Product\Brand\BrandFactoryInterface:
+        alias: Shopsys\FrameworkBundle\Model\Product\Brand\BrandFactory
 
-    Shopsys\FrameworkBundle\Model\Order\OrderNumberSequenceRepository: ~
-
-    Shopsys\FrameworkBundle\Model\Order\OrderRepository: ~
-
-    Shopsys\FrameworkBundle\Model\Order\OrderFacade: ~
-
-    Shopsys\FrameworkBundle\Model\Order\Status\OrderStatusFacade: ~
-
-    Shopsys\FrameworkBundle\Model\Order\Preview\OrderPreviewFactory: ~
+    Shopsys\FrameworkBundle\Model\Product\Elasticsearch\ProductExportSubscriber:
+        autoconfigure: false
 
     Shopsys\FrameworkBundle\Model\Product\Filter\BrandFilterChoiceRepository: ~
 
@@ -147,29 +154,21 @@ services:
 
     Shopsys\FrameworkBundle\Model\Product\Filter\ParameterFilterChoiceRepository: ~
 
+    Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterConfigFactory: ~
+
+    Shopsys\FrameworkBundle\Model\Product\Flag\FlagFacade: ~
+
+    Shopsys\FrameworkBundle\Model\Product\Flag\FlagInlineEdit: ~
+
     Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterInlineEdit: ~
 
     Shopsys\FrameworkBundle\Model\Product\Parameter\ParameterRepository: ~
 
-    Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactoryInterface:
-        alias: Shopsys\FrameworkBundle\Model\Payment\PaymentDataFactory
+    Shopsys\FrameworkBundle\Model\Product\Pricing\ProductInputPriceRecalculator: ~
 
-    Shopsys\FrameworkBundle\Model\Payment\PaymentFactoryInterface:
-        alias: Shopsys\FrameworkBundle\Model\Payment\PaymentFactory
+    Shopsys\FrameworkBundle\Model\Product\Pricing\ProductManualInputPriceFacade: ~
 
-    Shopsys\FrameworkBundle\Model\Payment\PaymentFacade: ~
-
-    Shopsys\FrameworkBundle\Model\Payment\PaymentRepository: ~
-
-    Shopsys\FrameworkBundle\Component\DataFixture\PersistentReferenceFacade: ~
-
-    Shopsys\FrameworkBundle\Model\AdvancedSearch\ProductAdvancedSearchConfig: ~
-
-    Shopsys\FrameworkBundle\Model\Pricing\Group\Grid\PricingGroupInlineEdit: ~
-
-    Shopsys\FrameworkBundle\Component\Plugin\PluginDataFixtureRegistry: ~
-
-    Shopsys\FrameworkBundle\Model\Pricing\Group\PricingGroupFacade: ~
+    Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceCalculationForCustomerUser: ~
 
     Shopsys\FrameworkBundle\Model\Product\ProductDataFactoryInterface:
         alias: Shopsys\FrameworkBundle\Model\Product\ProductDataFactory
@@ -181,19 +180,29 @@ services:
 
     Shopsys\FrameworkBundle\Model\Product\ProductHiddenRecalculator: ~
 
-    Shopsys\FrameworkBundle\Model\Product\ProductSellingDeniedRecalculator: ~
-
-    Shopsys\FrameworkBundle\Model\Product\ProductVisibilityRepository: ~
-
-    Shopsys\FrameworkBundle\Model\Product\ProductVariantFacade: ~
-
     Shopsys\FrameworkBundle\Model\Product\ProductOnCurrentDomainElasticFacade: ~
 
-    Shopsys\FrameworkBundle\Model\Product\Pricing\ProductPriceCalculationForCustomerUser: ~
+    Shopsys\FrameworkBundle\Model\Product\ProductOnCurrentDomainFacade: ~
 
     Shopsys\FrameworkBundle\Model\Product\ProductRepository: ~
 
+    Shopsys\FrameworkBundle\Model\Product\ProductSellingDeniedRecalculator: ~
+
+    Shopsys\FrameworkBundle\Model\Product\ProductVariantFacade: ~
+
+    Shopsys\FrameworkBundle\Model\Product\ProductVisibilityRepository: ~
+
+    Shopsys\FrameworkBundle\Model\Product\Search\FilterQueryFactory: ~
+
+    Shopsys\FrameworkBundle\Model\Product\Unit\UnitFacade: ~
+
     Shopsys\FrameworkBundle\Model\Script\ScriptFacade: ~
+
+    Shopsys\FrameworkBundle\Model\Security\AdminLogoutHandler: ~
+
+    Shopsys\FrameworkBundle\Model\Security\CustomerLoginHandler: ~
+
+    Shopsys\FrameworkBundle\Model\Transport\IndependentTransportVisibilityCalculation: ~
     Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface:
         alias: Shopsys\FrameworkBundle\Model\Transport\TransportDataFactory
 
@@ -204,24 +213,15 @@ services:
 
     Shopsys\FrameworkBundle\Model\Transport\TransportRepository: ~
 
-    Shopsys\FrameworkBundle\Model\Product\Unit\UnitFacade: ~
-
-    Shopsys\FrameworkBundle\Model\Pricing\Vat\VatFacade: ~
-
-    Shopsys\FrameworkBundle\Model\Product\Search\FilterQueryFactory: ~
-
-    Shopsys\FrameworkBundle\Model\Product\Pricing\ProductManualInputPriceFacade: ~
-
-    Shopsys\FrameworkBundle\Model\Cart\Item\CartItemFactoryInterface:
-        alias: Shopsys\FrameworkBundle\Model\Cart\Item\CartItemFactory
-
-    Shopsys\FrameworkBundle\Model\Cart\CartRepository: ~
-
-    Shopsys\FrameworkBundle\Model\Cart\Watcher\CartWatcherFacade:
-
-    Shopsys\FrameworkBundle\Model\Product\Filter\ProductFilterConfigFactory: ~
-
-    Shopsys\FrameworkBundle\Model\Product\Pricing\ProductInputPriceRecalculator: ~
+    prezent_doctrine_translatable.listener:
+        arguments:
+            $factory: '@prezent_doctrine_translatable.metadata_factory'
+            $domain: '@Shopsys\FrameworkBundle\Component\Domain\Domain'
+            $administrationFacade: '@Shopsys\FrameworkBundle\Model\Administration\AdministrationFacade'
+            $adminLocale: '%shopsys.admin_locale%'
+        class: Tests\FrameworkBundle\Test\TestTranslatableListener
+        tags:
+            - 'doctrine.event_subscriber'
 
 # @deprecated - services between these two comment blocks are supposed to be removed in next major version
 # as it is no longer necessary to be defined here - <-------- end

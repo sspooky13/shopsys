@@ -6,14 +6,22 @@ framework:
 
 services:
     _defaults:
-        autowire: true
         autoconfigure: true
+        autowire: true
         public: true
 
+    League\Flysystem\FilesystemInterface:
+        alias: main_filesystem
+
     Shopsys\FrameworkBundle\Component\EntityExtension\EntityNameResolver:
-        class: Tests\App\Functional\EntityExtension\OverwritableEntityNameResolver
         arguments:
             - "%shopsys.entity_extension.map%"
+        class: Tests\App\Functional\EntityExtension\OverwritableEntityNameResolver
+
+    Shopsys\FrameworkBundle\Model\Localization\IntlCurrencyRepository: ~
+
+    Symfony\Bridge\Twig\Extension\HttpKernelRuntime:
+        arguments: ['@fragment.handler']
 
     Tests\App\Functional\EntityExtension\OverwritableEntityNameResolver:
         alias: Shopsys\FrameworkBundle\Component\EntityExtension\EntityNameResolver
@@ -24,11 +32,3 @@ services:
             - "%shopsys.entity_extension.map%"
         tags:
             - { name: doctrine.event_subscriber, priority: -10 }
-
-    Symfony\Bridge\Twig\Extension\HttpKernelRuntime:
-        arguments: ['@fragment.handler']
-
-    Shopsys\FrameworkBundle\Model\Localization\IntlCurrencyRepository: ~
-
-    League\Flysystem\FilesystemInterface:
-        alias: main_filesystem

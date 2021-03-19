@@ -1,11 +1,22 @@
 services:
     _defaults:
-        autowire: true
         autoconfigure: true
+        autowire: true
         public: true
 
     Shopsys\MigrationBundle\Command\:
         resource: '../../Command/'
+
+    Doctrine\DBAL\Migrations\Finder\MigrationFinderInterface:
+        alias: Shopsys\MigrationBundle\Component\Doctrine\Migrations\MigrationsFinder
+
+    Doctrine\DBAL\Migrations\Finder\RecursiveRegexFinder: ~
+
+    Doctrine\DBAL\Schema\Comparator: ~
+
+    Doctrine\ORM\Tools\SchemaTool:
+        arguments:
+            - '@Doctrine\ORM\EntityManagerInterface'
 
     Shopsys\MigrationBundle\Component\Doctrine\DatabaseSchemaFacade:
         arguments:
@@ -16,15 +27,6 @@ services:
 
     Shopsys\MigrationBundle\Component\Doctrine\Migrations\MigrationsFinder: ~
 
-    Shopsys\MigrationBundle\Component\Doctrine\Migrations\MigrationsLock:
-        arguments:
-            $migrationsLockFilePath: '%kernel.project_dir%/migrations-lock.yml'
-
-    Doctrine\DBAL\Migrations\Finder\RecursiveRegexFinder: ~
-
-    Doctrine\DBAL\Migrations\Finder\MigrationFinderInterface:
-        alias: Shopsys\MigrationBundle\Component\Doctrine\Migrations\MigrationsFinder
-
     Shopsys\MigrationBundle\Component\Doctrine\Migrations\MigrationsLocator:
         arguments:
             $relativeDirectory: 'Migrations'
@@ -32,12 +34,10 @@ services:
             $applicationMigrationNamespace: '%doctrine_migrations.namespace%'
             $applicationMigrationPath: '%doctrine_migrations.dir_name%'
 
+    Shopsys\MigrationBundle\Component\Doctrine\Migrations\MigrationsLock:
+        arguments:
+            $migrationsLockFilePath: '%kernel.project_dir%/migrations-lock.yml'
+
     Shopsys\MigrationBundle\Component\Doctrine\SchemaDiffFilter: ~
 
     Shopsys\MigrationBundle\Component\Generator\MigrationsGenerator: ~
-
-    Doctrine\DBAL\Schema\Comparator: ~
-
-    Doctrine\ORM\Tools\SchemaTool:
-        arguments:
-            - '@Doctrine\ORM\EntityManagerInterface'

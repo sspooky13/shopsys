@@ -1,7 +1,7 @@
 services:
     _defaults:
-        autowire: true
         autoconfigure: true
+        autowire: true
         public: false
 
     Shopsys\FrontendApiBundle\:
@@ -13,26 +13,26 @@ services:
         tags:
             - { name: overblog_graphql.resolver_map, schema: default }
 
-    Shopsys\FrontendApiBundle\Controller\FrontendApiController:
-        tags: ['controller.service_arguments']
-
     Shopsys\FrontendApiBundle\Component\Domain\EnabledOnDomainChecker:
         arguments:
             $enabledDomainIds: '%shopsys.frontend_api.domains%'
+
+    Shopsys\FrontendApiBundle\Controller\FrontendApiController:
+        tags: ['controller.service_arguments']
 
     Shopsys\FrontendApiBundle\Model\Error\ErrorHandlerListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 20}
 
-    Shopsys\FrontendApiBundle\Model\Token\TokenAuthenticator:  ~
+    Shopsys\FrontendApiBundle\Model\GraphqlConfigurator: ~
 
-    Shopsys\FrontendApiBundle\Model\User\FrontendApiUserProvider: ~
+    Shopsys\FrontendApiBundle\Model\Product\Filter\ProductFilterNormalizer: ~
+
+    Shopsys\FrontendApiBundle\Model\Token\TokenAuthenticator:  ~
 
     Shopsys\FrontendApiBundle\Model\User\FrontendApiUserFactory: ~
 
     Shopsys\FrontendApiBundle\Model\User\FrontendApiUserFactoryInterface:
         alias: Shopsys\FrontendApiBundle\Model\User\FrontendApiUserFactory
 
-    Shopsys\FrontendApiBundle\Model\GraphqlConfigurator: ~
-
-    Shopsys\FrontendApiBundle\Model\Product\Filter\ProductFilterNormalizer: ~
+    Shopsys\FrontendApiBundle\Model\User\FrontendApiUserProvider: ~

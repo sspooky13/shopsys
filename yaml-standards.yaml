@@ -18,3 +18,16 @@
             parameters:
                 { serviceAliasingType: long, indents: 4 }
         -   pathToChecker: YamlStandards\Model\YamlEmptyLineAtEnd\YamlEmptyLineAtEndChecker
+
+-   pathsToCheck:
+        - ./packages/service*.{yml,yaml}
+        - ./project-base/service*.{yml,yaml}
+        - ./utils/service*.{yml,yaml}
+    excludedPaths:
+        - ./project-base/node_modules/service*.{yml,yaml}
+        - ./packages/framework/assets/node_modules/service*.{yml,yaml}
+    checkers:
+        -   pathToChecker: YamlStandards\Model\YamlAlphabetical\YamlAlphabeticalChecker
+            parameters:
+                depth: 3
+                prioritizedKeys: [ imports, _defaults::exact, Shopsys\FrameworkBundle\::exact, Shopsys\FrameworkBundle\Controller\::exact, Shopsys\Releaser\::exact, Shopsys\ReadModelBundle\::exact, Shopsys\MigrationBundle\Command\::exact, Shopsys\FrontendApiBundle\::exact, resolverMaps::exact ]
