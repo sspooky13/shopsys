@@ -1,14 +1,14 @@
 -   pathsToCheck:
-        - .
+        - ./*{.yml,.yaml,.yml.dist,.yaml.dist}
     excludedPaths:
         - ./docker-compose.yml
         - ./docker-sync.yml
-        - ./.github/workflows # yaml standards have problems with multiline definitions in workflows
-        - ./vendor
-        - ./project-base/node_modules
+        - ./.github/workflows/*.yaml # yaml standards have problems with multiline definitions in workflows
+        - ./vendor/*{.yml,.yaml,.yml.dist,.yaml.dist}
+        - ./project-base/node_modules/*{.yml,.yaml,.yml.dist,.yaml.dist}
         - ./project-base/config/domains_urls.yaml
         - ./project-base/config/oauth2/parameters_oauth.yaml.dist
-        - ./packages/framework/assets/node_modules
+        - ./packages/framework/assets/node_modules/*{.yml,.yaml,.yml.dist,.yaml.dist}
         - ./packages/backend-api/install/config/oauth2/parameters_oauth.yaml.dist
     checkers:
         -   pathToChecker: YamlStandards\Model\YamlIndent\YamlIndentChecker

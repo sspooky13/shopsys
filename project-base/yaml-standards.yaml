@@ -1,8 +1,8 @@
 -   pathsToCheck:
-        - .
+        - ./*{.yml,.yaml,.yml.dist,.yaml.dist}
     excludedPaths:
-        - ./vendor
-        - ./node_modules
+        - ./vendor/*{.yml,.yaml,.yml.dist,.yaml.dist}
+        - ./node_modules/*{.yml,.yaml,.yml.dist,.yaml.dist}
         - ./config/domains_urls.yaml
         - ./config/oauth2/parameters_oauth.yaml.dist
     checkers:
