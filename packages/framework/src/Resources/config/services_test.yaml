@@ -39,7 +39,6 @@ services:
 
     # @deprecated - services between these two comment blocks are supposed to be removed in next major version
     # as it is no longer necessary to be defined here - start -------->
-
     Shopsys\FrameworkBundle\Model\Administrator\Activity\AdministratorActivityFacade: ~
 
     Shopsys\FrameworkBundle\Model\Administrator\AdministratorRepository: ~
@@ -203,6 +202,7 @@ services:
     Shopsys\FrameworkBundle\Model\Security\CustomerLoginHandler: ~
 
     Shopsys\FrameworkBundle\Model\Transport\IndependentTransportVisibilityCalculation: ~
+
     Shopsys\FrameworkBundle\Model\Transport\TransportDataFactoryInterface:
         alias: Shopsys\FrameworkBundle\Model\Transport\TransportDataFactory
 
@@ -222,6 +222,5 @@ services:
         class: Tests\FrameworkBundle\Test\TestTranslatableListener
         tags:
             - 'doctrine.event_subscriber'
-
 # @deprecated - services between these two comment blocks are supposed to be removed in next major version
 # as it is no longer necessary to be defined here - <-------- end

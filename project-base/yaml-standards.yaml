@@ -23,3 +23,6 @@
             parameters:
                 depth: 3
                 prioritizedKeys: [ imports ]
+        -   pathToChecker: YamlStandards\Model\YamlSpacesBetweenGroups\YamlSpacesBetweenGroupsChecker
+            parameters:
+                { level: 2 }

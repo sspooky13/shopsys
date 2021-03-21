@@ -31,3 +31,6 @@
             parameters:
                 depth: 3
                 prioritizedKeys: [ imports, _defaults::exact, Shopsys\FrameworkBundle\::exact, Shopsys\FrameworkBundle\Controller\::exact, Shopsys\Releaser\::exact, Shopsys\ReadModelBundle\::exact, Shopsys\MigrationBundle\Command\::exact, Shopsys\FrontendApiBundle\::exact, resolverMaps::exact ]
+        -   pathToChecker: YamlStandards\Model\YamlSpacesBetweenGroups\YamlSpacesBetweenGroupsChecker
+            parameters:
+                { level: 2 }
