@@ -25,7 +25,7 @@ class BetterMoney implements JsonSerializable
      * @param \Litipk\BigNumbers\Decimal $decimal
      * @param \Shopsys\FrameworkBundle\Model\Pricing\Currency\Currency $currency
      */
-    protected function __construct(Decimal $decimal, Currency $currency)
+    public function __construct(Decimal $decimal, Currency $currency)
     {
         $this->decimal = $decimal;
         $this->currency = $currency;
