@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Shopsys\FrameworkBundle\Model\Transport;
 
 use Doctrine\ORM\Mapping as ORM;
-use Shopsys\FrameworkBundle\Component\Money\AbstractMoneyWithCurrency;
 use Shopsys\FrameworkBundle\Component\Money\BetterMoney;
 use Shopsys\FrameworkBundle\Component\Money\Money;
 use Shopsys\FrameworkBundle\Component\Money\MoneyWithCurrency;
@@ -15,7 +14,7 @@ use Shopsys\FrameworkBundle\Model\Pricing\Currency\Currency;
  * @ORM\Table(name="transport_prices")
  * @ORM\Entity
  */
-class TransportPrice extends AbstractMoneyWithCurrency
+class TransportPrice
 {
     /**
      * @var \Shopsys\FrameworkBundle\Model\Transport\Transport

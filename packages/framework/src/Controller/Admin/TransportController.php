@@ -2,7 +2,6 @@
 
 namespace Shopsys\FrameworkBundle\Controller\Admin;
 
-use Shopsys\FrameworkBundle\Component\Domain\Domain;
 use Shopsys\FrameworkBundle\Component\Router\Security\Annotation\CsrfProtection;
 use Shopsys\FrameworkBundle\Form\Admin\Transport\TransportFormType;
 use Shopsys\FrameworkBundle\Model\AdminNavigation\BreadcrumbOverrider;
@@ -107,8 +106,6 @@ class TransportController extends AdminBaseController
     {
         $transport = $this->transportFacade->getById($id);
         $transportData = $this->transportDataFactory->createFromTransport($transport);
-
-        d($transport->getPrice(Domain::FIRST_DOMAIN_ID)->getPriceWithCurrency());
 
         $form = $this->createForm(TransportFormType::class, $transportData, [
             'transport' => $transport,
