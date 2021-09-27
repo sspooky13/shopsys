@@ -13,6 +13,7 @@ use Shopsys\FrameworkBundle\Model\Administrator\AdministratorFacade;
 use Shopsys\FrameworkBundle\Model\Administrator\Exception\AdministratorNotFoundException;
 use Shopsys\FrameworkBundle\Model\Administrator\Exception\DeletingLastAdministratorException;
 use Shopsys\FrameworkBundle\Model\Administrator\Exception\DeletingSelfException;
+use Shopsys\FrameworkBundle\Model\Administrator\Exception\DeletingSuperadminException;
 use Shopsys\FrameworkBundle\Model\Administrator\Exception\DuplicateUserNameException;
 use Shopsys\FrameworkBundle\Model\Administrator\Security\AdministratorRolesChangedFacade;
 use Shopsys\FrameworkBundle\Model\AdminNavigation\BreadcrumbOverrider;
@@ -264,7 +265,7 @@ class AdministratorController extends AdminBaseController
                     'name' => $this->administratorFacade->getById($id)->getRealName(),
                 ]
             );
-        } catch (AdministratorNotFoundException $ex) {
+        } catch (AdministratorNotFoundException | DeletingSuperadminException $ex) {
             $this->addErrorFlash(t('Selected administrated doesn\'t exist.'));
         }
 
