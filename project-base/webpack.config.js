@@ -1,6 +1,7 @@
 const Encore = require('@symfony/webpack-encore');
 const EventHooksPlugin = require('event-hooks-webpack-plugin');
 const processTrans = require('./assets/js/commands/translations/process');
+const OverridePhpConstantsWebpackPlugin = require('./assets/js/commands/translations/index');
 const CopyPlugin = require('copy-webpack-plugin');
 const yaml = require('js-yaml');
 const fs = require('fs');
@@ -78,6 +79,7 @@ Encore
             }
         ]
     }))
+    .addPlugin(new OverridePhpConstantsWebpackPlugin())
     .addPlugin(new LiveReloadPlugin())
 ;
 
