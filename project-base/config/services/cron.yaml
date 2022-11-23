@@ -49,8 +49,7 @@ services:
             - { name: shopsys.cron, hours: '*', minutes: '10', readableName: 'Generate hourly feeds' }
 
     Shopsys\FrameworkBundle\Model\Sitemap\SitemapCronModule:
-        tags:
-            - { name: shopsys.cron, hours: '4', minutes: '0', readableName: 'Generate Sitemap' }
+        tags:on, hours: '4', minutes: '0', readableName: 'Generate Sitemap' }
 
     Shopsys\FrameworkBundle\Component\FileUpload\DeleteOldUploadedFilesCronModule:
         tags:
