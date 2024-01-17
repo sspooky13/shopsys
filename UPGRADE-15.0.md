@@ -64,6 +64,9 @@ Follow the instructions in relevant sections, e.g. `shopsys/coding-standards` or
 
 ## [Upgrade from v14.0.0 to v15.0.0-dev](https://github.com/shopsys/shopsys/compare/v14.0.0...15.0)
 
+-   Added check vulnerabilities for javascripts in storefront ([#2993](https://github.com/shopsys/shopsys/pull/2993))
+    -   see #project-base-diff to update your project
+
 ### Storefront
 
 -   added query/mutation name to URL and headers ([#3041](https://github.com/shopsys/shopsys/pull/3041))
